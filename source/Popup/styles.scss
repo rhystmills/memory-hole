@@ -5,17 +5,28 @@
 body {
   color: $black;
   background-color: $greyWhite;
+  box-sizing: border-box;
 }
 
 
 #popup {
   min-width: 350px;
-  padding: 30px 20px;
-
-  h2 {
-    font-size: 25px;
-    text-align: center;
+  
+  > header {
+    padding: 15px 20px;
   }
+
+  main {
+    // background-color: white;
+    border-top: 1px solid rgba(0,0,0,0.5);
+    height: 500px;
+    padding: 15px 20px;
+  }
+
+  // h2 {
+  //   font-size: 25px;
+  //   text-align: center;
+  // }
 
   #options__button {
     width: 50%;
@@ -48,6 +59,94 @@ body {
           cursor: pointer;
         }
       }
+    }
+  }
+}
+
+.picker {
+  width: 100%;
+  align-items: center;
+  display: flex;
+  input {
+    flex-grow: 1;
+    padding: 6px;
+    height: 32px;
+    border-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border: 1px solid $light;
+  }
+  svg {
+    fill: $dark;
+    border: $dark;
+    height: 30px;
+  }
+  button {
+    background-color: blanchedalmond;
+    height:32px;
+    border: 1px solid $light;
+    border-left: none;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    &:hover{
+      cursor: pointer;
+      background-color:bisque;
+      svg { 
+        fill: $darker;
+      }
+    }
+  }
+}
+
+.block {
+  border: 1px solid $light;
+  border-radius: 2px;
+  margin-bottom: 10px;
+
+  header {
+    background-color: peachpuff;
+    display: flex;
+    align-items: center;
+    button {
+      height: 20px;
+      width: 20px;
+      background: none;
+      margin: 2px 4px;
+      fill: $dark;
+      &:hover{
+        cursor: pointer;
+        svg { 
+          fill: $darker;
+        }
+      }
+    }
+  }
+  h2 {
+    padding: 4px 6px;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    flex-grow: 1;
+  }
+  table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th{
+    text-align: end;
+    width: 100px
+  }
+  th, td {
+    border-top: 1px solid $light;
+    padding: 2px;
+  }
+  .site {
+    border: 1px solid $light;
+    padding: 2px;
+    border-radius: 2px;
+    &:hover{
+      cursor: pointer;
     }
   }
 }
