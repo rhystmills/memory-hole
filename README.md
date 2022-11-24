@@ -5,4 +5,5 @@
 <li>see kittens instead of articles about andrew tate<li>
 <li>replace "NFTs" with "digital beanie babies"</li>
 </ul>
-p<p align="center">Uses chrome extension boilerplate from <a href="https://twitter.com/_abhijithv">@abhijithvijayan</a></h3>
+
+<p>Uses chrome extension boilerplate from <a href="https://twitter.com/_abhijithv">@abhijithvijayan</a></p>
