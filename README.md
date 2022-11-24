@@ -1,4 +1,4 @@
-<h1 align="center">memory hole 🕳️</h1>
+<h1>memory hole 🕳️</h1>
 <p>make the internet less annoying</p>
 <ul>
 <li>hide tweets about elon musk</li>
