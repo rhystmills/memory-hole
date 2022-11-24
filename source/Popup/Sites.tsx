@@ -69,4 +69,4 @@ export const Site = ({
   );
 };
 
-export const sites = [guardian, localhost, twitter];
+export const sites = [guardian, twitter];
