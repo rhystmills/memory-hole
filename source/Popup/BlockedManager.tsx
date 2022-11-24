@@ -127,7 +127,7 @@ export const BlockedManager = ({
                 </td>
               </tr>
               <tr>
-                <th>Mode</th>
+                <th>Text replace</th>
                 <td className="textReplaceContainer">
                   <TextReplaceInput
                     blockName={block.name}
