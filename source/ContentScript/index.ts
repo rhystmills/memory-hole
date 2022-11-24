@@ -1,14 +1,15 @@
 import {Block} from '../Popup/Popup';
+import {
+  hideElement,
+  MatchAndReplacement,
+  replaceTextUnderElement,
+  replaceWithCat,
+} from './elementModifiers';
 import {ElementWithMatchType, getElementsForBlocks} from './getElementsToHide';
 
 console.log('helloworld from content script');
 
 let blocked = [] as Block[];
-
-type BlockedElements = {
-  remove: Element[];
-  replace: Element[];
-};
 
 const getElementsForMatchType = (
   elementsWithMatchTypes: ElementWithMatchType[],
@@ -18,25 +19,49 @@ const getElementsForMatchType = (
     .filter((element) => element.matchType === matchType)
     .map((element) => element.element);
 
+const runTextReplacement = (): void => {
+  const matchesAndReplacements = blocked.map((block): MatchAndReplacement => {
+    return {
+      match: block.name,
+      replacement: block.textReplacement,
+    };
+  });
+
+  replaceTextUnderElement(document, matchesAndReplacements);
+};
+
 const blockElements = (
   elementsWithMatchTypes: ElementWithMatchType[]
 ): void => {
-  const elementsToReplace = getElementsForMatchType(
-    elementsWithMatchTypes,
-    'replace'
-  );
-  const elementsToRemove = getElementsForMatchType(
-    elementsWithMatchTypes,
+  const debugElements = elementsWithMatchTypes.filter((el) => el.debugMode);
+  const nonDebugElements = elementsWithMatchTypes.filter((el) => !el.debugMode);
+
+  const elementsToRemoveDebug = getElementsForMatchType(
+    debugElements,
     'remove'
   );
+  const elementsToReplaceDebug = getElementsForMatchType(
+    debugElements,
+    'replace'
+  );
+  const elementsToReplace = getElementsForMatchType(
+    nonDebugElements,
+    'replace'
+  );
+  const elementsToRemove = getElementsForMatchType(nonDebugElements, 'remove');
+
   // FIXME: This process is additive. Removing the block won't unstyle already-styled elements
-  elementsToReplace.forEach((element) => {
+  elementsToReplaceDebug.forEach((element) => {
     element.style.setProperty('outline', '2px solid green');
-    // element.style.setProperty('visibility', 'hidden');
+  });
+  elementsToRemoveDebug.forEach((element) => {
+    element.style.setProperty('outline', '2px solid red');
+  });
+  elementsToReplace.forEach((element) => {
+    replaceWithCat(element);
   });
   elementsToRemove.forEach((element) => {
-    element.style.setProperty('outline', '2px solid red');
-    // element.style.setProperty('visibility', 'hidden');
+    hideElement(element);
   });
 };
 
@@ -46,14 +71,22 @@ chrome.storage.local.get('blocked', (storedBlocked) => {
 
   const elementsWithMatchTypes = getElementsForBlocks(blocked);
   blockElements(elementsWithMatchTypes);
+  runTextReplacement();
 });
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message) => {
   blocked = message;
 
   const elementsWithMatchTypes = getElementsForBlocks(blocked);
   blockElements(elementsWithMatchTypes);
 });
+
+setInterval(() => {
+  const elementsWithMatchTypes = getElementsForBlocks(blocked);
+  blockElements(elementsWithMatchTypes);
+
+  runTextReplacement();
+}, 1000);
 
 export {};
 

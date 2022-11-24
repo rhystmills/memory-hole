@@ -18,6 +18,13 @@ const localhost = {
   hostname: 'localhost',
 };
 
+const twitter = {
+  name: 'Twitter',
+  key: 'twitter',
+  selectors: [{string: "article[data-testid='tweet']", matchType: 'remove'}],
+  hostname: 'twitter.com',
+};
+
 export type Selector = {
   string: string;
   matchType: 'replace' | 'remove';
@@ -62,4 +69,4 @@ export const Site = ({
   );
 };
 
-export const sites = [guardian, localhost];
+export const sites = [guardian, localhost, twitter];

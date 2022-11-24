@@ -149,4 +149,13 @@ body {
       cursor: pointer;
     }
   }
+  .textReplaceContainer{
+    display:flex;
+    .textReplace {
+      flex-grow: 1;
+      input {
+        width: 100%;
+      }
+    }
+  }
 }

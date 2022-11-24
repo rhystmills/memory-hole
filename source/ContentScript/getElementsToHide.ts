@@ -4,6 +4,7 @@ import {Selector} from '../Popup/Sites';
 export type ElementWithMatchType = {
   element: HTMLElement;
   matchType: string;
+  debugMode: boolean;
 };
 
 const filterBlocksForSite = (blockedArray: Block[]): Block[] => {
@@ -20,7 +21,8 @@ const filterBlocksForSite = (blockedArray: Block[]): Block[] => {
 };
 
 const getElementsThatMatchSelector = (
-  selector: Selector
+  selector: Selector,
+  debugMode: boolean
 ): ElementWithMatchType[] => {
   return Array.from(
     document.querySelectorAll(selector.string) as NodeListOf<HTMLElement>
@@ -28,6 +30,7 @@ const getElementsThatMatchSelector = (
     return {
       element,
       matchType: selector.matchType,
+      debugMode,
     };
   });
 };
@@ -43,9 +46,11 @@ const filterElementsThatContainBlockPhrase = (
 
 export const getElementsToHide = (
   selector: Selector,
-  blockPhrase: string
+  blockPhrase: string,
+  debugMode: boolean
 ): ElementWithMatchType[] => {
-  const elements = getElementsThatMatchSelector(selector);
+  const elements = getElementsThatMatchSelector(selector, debugMode);
+  console.log({elements});
   return filterElementsThatContainBlockPhrase(elements, blockPhrase);
 };
 
@@ -53,10 +58,11 @@ export const getElementsForBlocks = (
   blocks: Block[]
 ): ElementWithMatchType[] => {
   const filteredBlocksForSite = filterBlocksForSite(blocks);
+  console.log({filteredBlocksForSite});
   const elements = filteredBlocksForSite.flatMap((block) =>
     block.sites.flatMap((site) =>
       site.selectors.flatMap((selector) => {
-        return getElementsToHide(selector, block.name);
+        return getElementsToHide(selector, block.name, block.debugMode);
       })
     )
   );

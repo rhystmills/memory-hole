@@ -23,6 +23,8 @@ export type SiteSetting = {
 export type Block = {
   name: string;
   sites: SiteSetting[];
+  textReplacement: string;
+  debugMode: boolean;
 };
 
 const Popup: React.FC = () => {
@@ -57,6 +59,8 @@ const Popup: React.FC = () => {
             hostname: site.hostname,
           };
         }),
+        textReplacement: '',
+        debugMode: false,
       } as Block;
       const newBlocked = [...blocked, blockStructure];
       setBlocked(newBlocked);
@@ -81,6 +85,31 @@ const Popup: React.FC = () => {
       }
     }
   };
+  // TODO: these update funcs need DRYing
+  const updateTextReplacementForBlock = (
+    blockName: string,
+    textReplacement: string
+  ): void => {
+    const block = blocked.find(
+      (blockSearched) => blockSearched.name === blockName
+    );
+    if (block) {
+      // Should always be true
+      block.textReplacement = textReplacement;
+      chrome.storage.local.set({blocked});
+    }
+  };
+
+  const setDebugMode = (boolean: boolean, blockName: string): void => {
+    const block = blocked.find(
+      (blockSearched) => blockSearched.name === blockName
+    );
+    if (block) {
+      // Should always be true
+      block.debugMode = boolean;
+      chrome.storage.local.set({blocked});
+    }
+  };
 
   const removeBlock = (blockName: string): void => {
     const newBlocked = blocked.filter((block) => block.name !== blockName);
@@ -97,6 +126,8 @@ const Popup: React.FC = () => {
           blocked={blocked}
           updateSitesForBlock={updateSitesForBlock}
           removeBlock={removeBlock}
+          updateTextReplacementForBlock={updateTextReplacementForBlock}
+          setDebugMode={setDebugMode}
         />
 
         <Picker addToBlocked={addToBlocked} />
