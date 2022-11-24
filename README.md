@@ -2,7 +2,7 @@
 <p>make the internet less annoying</p>
 <ul>
 <li>hide tweets about elon musk</li>
-<li>see kittens instead of articles about andrew tate<li>
+<li>see kittens instead of articles about andrew tate/<li>
 <li>replace "NFTs" with "digital beanie babies"</li>
 </ul>
 
